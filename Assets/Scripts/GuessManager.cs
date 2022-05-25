@@ -5,12 +5,10 @@ using UnityEngine.UI;
 
 public class GuessManager : MonoBehaviour
 {
-    [SerializeField] private Text _wordDisplayText;
-
-    private WordSelector _ws => GetComponent<WordSelector>();
+    [SerializeField] private InputField _inputField;
 
     private void Start()
     {
-        
+        _inputField.
     }
 }
