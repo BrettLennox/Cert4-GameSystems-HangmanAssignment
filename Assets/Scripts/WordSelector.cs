@@ -32,7 +32,7 @@ public class WordSelector : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.Tilde))
         {
             SelectRandomWord(_wordsList);
         }

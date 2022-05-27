@@ -6,9 +6,12 @@ using UnityEngine.UI;
 public class GuessManager : MonoBehaviour
 {
     [SerializeField] private InputField _inputField;
+    private char letter;
 
-    private void Start()
+    public void SendLetter()
     {
-        _inputField.
+        letter = char.Parse(_inputField.text);
+        Debug.Log(letter);
+        _inputField.text = null;
     }
 }
