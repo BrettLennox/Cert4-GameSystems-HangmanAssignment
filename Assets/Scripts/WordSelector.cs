@@ -17,12 +17,13 @@ public class WordSelector : MonoBehaviour
     [Header("Text Components")]
     [SerializeField] private Text wordDisplayText;
 
-    private List<char> _chosenWordsLetters;
+    [SerializeField] private List<char> _chosenWordsLetters;
     #endregion
     #region Properties
     public string ChosenWord { get => _chosenWord; }
-    public List<char> HiddenWordLengthList { get => _hiddenWordList; set => value = _hiddenWordList; }
+    public List<char> HiddenWordList { get => _hiddenWordList; set => value = _hiddenWordList; }
     public List<char> ChosenWordLetters { get => _chosenWordsLetters; }
+    public Text WordDisplayText { get => wordDisplayText; set => value = wordDisplayText; }
     #endregion
 
     void Start()
@@ -49,6 +50,10 @@ public class WordSelector : MonoBehaviour
             }
         }
         _chosenWordsLetters = _chosenWord.ToList(); //fills chosenWordsLetters char list from chosenWord string
+        for(int i = 0; i< _chosenWordsLetters.Count; i++) //for every char in chosenWordLetters
+        {
+            _chosenWordsLetters[i] = char.ToUpper(_chosenWordsLetters[i]); //converts the chars value to uppercase
+        }
         CreateHiddenWord(); //runs CreateHiddenWord function
     }
 
@@ -62,12 +67,17 @@ public class WordSelector : MonoBehaviour
         {
             _hiddenWordList.Add('_'); //add an element with '_' to hiddenWordsList
         }
+        CreateHiddenWordValues();
+    }
+
+    public void CreateHiddenWordValues()
+    {
         string word = new string(_hiddenWordList.ToArray()); //creates a string out of hiddenWordList char
         for (int i = 0; i < word.Length; i++) //for every char in word
         {
             word = word.Insert(i, " "); //add " " after each char
-            i++;
+            i++;//increment i
         }
-        wordDisplayText.text = word;
+        wordDisplayText.text = word;//updates wordDisplayText to be word
     }
 }
