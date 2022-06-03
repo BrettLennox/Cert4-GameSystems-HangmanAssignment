@@ -26,27 +26,14 @@ public class WordSelector : MonoBehaviour
     public Text WordDisplayText { get => wordDisplayText; set => value = wordDisplayText; }
     #endregion
 
-    void Start()
+    public void SelectRandomWord() //selects a random element from the input list of strings
     {
-        SelectRandomWord(_wordsList);
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Tilde))
-        {
-            SelectRandomWord(_wordsList);
-        }
-    }
-
-    private void SelectRandomWord(List<string> stringList) //selects a random element from the input list of strings
-    {
-        int randomNum = Random.Range(0, stringList.Count); //rolls a number between 0 and the input list count
+        int randomNum = Random.Range(0, _wordsList.Count); //rolls a number between 0 and the input list count
         foreach (string item in _wordsList)
         {
-            if (item == stringList[randomNum]) //if element in list matches randomNum
+            if (item == _wordsList[randomNum]) //if element in list matches randomNum
             {
-                _chosenWord = stringList[randomNum]; //chosenWord value is input string list at element of randomNum
+                _chosenWord = _wordsList[randomNum]; //chosenWord value is input string list at element of randomNum
             }
         }
         _chosenWordsLetters = _chosenWord.ToList(); //fills chosenWordsLetters char list from chosenWord string
