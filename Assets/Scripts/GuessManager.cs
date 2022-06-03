@@ -9,14 +9,14 @@ public class GuessManager : MonoBehaviour
     [Header("Images for Guesses")]
     [SerializeField] private List<Sprite> _hangmanSprites;
     [SerializeField] private Image _displayImage;
-    [Header("Guess Count Data")]
-    [SerializeField] private int _incorrectGuessCount = 0;
-    [SerializeField] private int _correctGuessCount = 0;
     [Header("Misc data")]
     [Tooltip("Input field component users will enter text into")]
     [SerializeField] private InputField _inputField;
     [Tooltip("Text component in PostGameUI")]
     [SerializeField] private Text _gameOverStateText;
+
+    private int _incorrectGuessCount = 0;
+    private int _correctGuessCount = 0;
     private bool _isCorrectGuess;
     private char letter;
     private WordSelector _ws;
@@ -35,13 +35,16 @@ public class GuessManager : MonoBehaviour
 
     private void Update()
     {
-        if (_incorrectGuessCount >= 5 && _sm.GameState == StateMachine.GameStates.Game) //if incorrectGuessCount is greater then or equal to 5 && GameState is set to Game
+        if (_sm.GameState == StateMachine.GameStates.Game)
         {
-            GameOver("You Lose"); //runs GameOver function with passed in string
-        }
-        else if (_correctGuessCount == _ws.ChosenWord.Length && _sm.GameState == StateMachine.GameStates.Game) //else if correctGuessCount equals ChosenWord length && GameState is set to Game
-        {
-            GameOver("You Win"); //runs GameOver function with passed in string
+            if (_incorrectGuessCount >= 5) //if incorrectGuessCount is greater then or equal to 5 && GameState is set to Game
+            {
+                GameOver("You Lose"); //runs GameOver function with passed in string
+            }
+            else if (_correctGuessCount == _ws.ChosenWord.Length) //else if correctGuessCount equals ChosenWord length && GameState is set to Game
+            {
+                GameOver("You Win"); //runs GameOver function with passed in string
+            }
         }
     }
 
@@ -61,10 +64,13 @@ public class GuessManager : MonoBehaviour
 
     public void SendLetter()
     {
-        letter = char.Parse(_inputField.text); //creates letter variable from the text value parsed from inputField
-        letter = char.ToUpper(letter); //converts letter to uppercase
-        CheckLetter(letter); //runs CheckLetter function with letter parsed in
-        _inputField.text = null; //clears inputField text
+        if (_inputField.text.Length >= _inputField.characterLimit)
+        {
+            letter = char.Parse(_inputField.text); //creates letter variable from the text value parsed from inputField
+            letter = char.ToUpper(letter); //converts letter to uppercase
+            CheckLetter(letter); //runs CheckLetter function with letter parsed in
+            _inputField.text = null; //clears inputField text
+        }
     }
 
     private void CheckLetter(char guessLetter)

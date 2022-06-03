@@ -11,19 +11,18 @@ public class WordSelector : MonoBehaviour
     [SerializeField] private List<string> _wordsList = new List<string>();
     [Tooltip("The list of chars that will be passed on to display")]
     [SerializeField] private List<char> _hiddenWordList;
-    [Tooltip("The randomly chosen word")]
-    [SerializeField] private string _chosenWord;
     [Tooltip("Text component that will display the hidden word to the screen")]
     [Header("Text Components")]
-    [SerializeField] private Text wordDisplayText;
-
-    [SerializeField] private List<char> _chosenWordsLetters;
+    [SerializeField] private Text _wordDisplayText;
+    
+    private List<char> _chosenWordsLetters;
+    private string _chosenWord;
     #endregion
     #region Properties
     public string ChosenWord { get => _chosenWord; }
-    public List<char> HiddenWordList { get => _hiddenWordList; set => value = _hiddenWordList; }
+    public List<char> HiddenWordList { get => _hiddenWordList; set => _hiddenWordList = value; }
     public List<char> ChosenWordLetters { get => _chosenWordsLetters; }
-    public Text WordDisplayText { get => wordDisplayText; set => value = wordDisplayText; }
+    public Text WordDisplayText { get => _wordDisplayText; set => _wordDisplayText = value; }
     #endregion
 
     public void SelectRandomWord() //selects a random element from the input list of strings
@@ -36,10 +35,10 @@ public class WordSelector : MonoBehaviour
                 _chosenWord = _wordsList[randomNum]; //chosenWord value is input string list at element of randomNum
             }
         }
-        _chosenWordsLetters = _chosenWord.ToList(); //fills chosenWordsLetters char list from chosenWord string
+        _chosenWordsLetters = ChosenWord.ToList(); //fills chosenWordsLetters char list from chosenWord string
         for(int i = 0; i< _chosenWordsLetters.Count; i++) //for every char in chosenWordLetters
         {
-            _chosenWordsLetters[i] = char.ToUpper(_chosenWordsLetters[i]); //converts the chars value to uppercase
+            ChosenWordLetters[i] = char.ToUpper(ChosenWordLetters[i]); //converts the chars value to uppercase
         }
         CreateHiddenWord(); //runs CreateHiddenWord function
     }
@@ -50,7 +49,7 @@ public class WordSelector : MonoBehaviour
         {
             _hiddenWordList.Clear(); //clear the list
         }
-        foreach (char letter in _chosenWordsLetters) //for every char in chosenWordLetters
+        foreach (char letter in ChosenWordLetters) //for every char in chosenWordLetters
         {
             _hiddenWordList.Add('_'); //add an element with '_' to hiddenWordsList
         }
@@ -65,6 +64,6 @@ public class WordSelector : MonoBehaviour
             word = word.Insert(i, " "); //add " " after each char
             i++;//increment i
         }
-        wordDisplayText.text = word;//updates wordDisplayText to be word
+        _wordDisplayText.text = word;//updates wordDisplayText to be word
     }
 }
